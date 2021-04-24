@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return view('welcome');
-    } else {
-        return 'not logged in';
-    }
-});
+// Route::get('/', function () {
+
+//     $user = Auth::user();
+    
+//     if ($user->isAdmin()) {
+//         echo 'this user is admin';
+//     }
+// });
+
+Route::get('/admin', [AdminController::class,'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+
+Route::get('/admin/user/roles', ['middleware' => 'role', function () {
+    return 'Middleware role';
+}]);
